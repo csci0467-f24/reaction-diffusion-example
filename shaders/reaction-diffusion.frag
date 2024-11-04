@@ -33,5 +33,22 @@ vec4 laplacian(sampler2D tex) {
 }
 
 void main() {
-  gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
+  float Da = 1.0;
+  float Db = 0.3;
+  float F = 0.1;
+  float K = 0.059;
+  float deltaT = 1.0;
+
+  vec4 currentState = texture2D(tex0, vTexCoord);
+  float A = currentState.r;
+  float B = currentState.b;
+  float change = A * B * B;
+
+  vec4 l = laplacian(tex0);
+
+  float newA = clamp(A + ((Da * l.r) - change + (F * (1.0 - A))) * deltaT, 0., 1.);
+  float newB = clamp(B + (Db * l.b + change - (K + F) * B) * deltaT, 0., 1.);
+  vec4 color = vec4(newA, 0.0, newB, 1.0);
+
+  gl_FragColor = color;
 }
