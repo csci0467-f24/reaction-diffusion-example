@@ -49,3 +49,16 @@ function draw() {
     image(buffer, 0,0);
   }
 }
+
+function mouseDragged(event) {
+  // draw a circle where the mouse event happened
+  buffer.begin();
+  if (event.shiftKey) {
+    fill(255, 0, 0);
+  } else {
+    fill(0, 0, 255);
+  }
+
+  circle(mouseX - width / 2, mouseY - height / 2, 10);
+  buffer.end();
+}
